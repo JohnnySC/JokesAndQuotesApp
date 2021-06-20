@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FavoriteDataView">
+        <attr name="chekBoxText" format="string" />
+        <attr name="actionButtonText" format="string" />
+    </declare-styleable>
+</resources>

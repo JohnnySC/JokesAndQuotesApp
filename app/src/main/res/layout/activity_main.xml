@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.github.johnnysc.jokeapp.presentation.FavoriteDataView
+        android:id="@+id/jokeFavoriteDataView"
+        custom:actionButtonText="@string/get_joke"
+        custom:chekBoxText="@string/show_favorite_joke"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.github.johnnysc.jokeapp.presentation.FavoriteDataView
+        android:id="@+id/quoteFavoriteView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:actionButtonText="@string/get_quote"
+        custom:chekBoxText="@string/show_favorite_quote" />
+
+</LinearLayout>
