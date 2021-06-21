@@ -1,7 +1,7 @@
 package com.github.johnnysc.jokeapp.data.net
 
 import com.github.johnnysc.jokeapp.core.Mapper
-import com.github.johnnysc.jokeapp.data.JokeDataModel
+import com.github.johnnysc.jokeapp.data.CommonDataModel
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -16,6 +16,6 @@ data class JokeServerModel(
     private val text: String,
     @SerializedName("punchline")
     private val punchline: String
-) : Mapper<JokeDataModel> {
-    override fun to() = JokeDataModel(id, text, punchline)
+) : Mapper<CommonDataModel> {
+    override fun to() = CommonDataModel(id, text, punchline)
 }

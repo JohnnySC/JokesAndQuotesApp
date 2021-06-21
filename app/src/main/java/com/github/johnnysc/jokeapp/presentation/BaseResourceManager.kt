@@ -1,16 +1,11 @@
-package com.github.johnnysc.jokeapp
+package com.github.johnnysc.jokeapp.presentation
 
 import android.content.Context
-import androidx.annotation.StringRes
+import com.github.johnnysc.jokeapp.core.ResourceManager
 
 /**
  * @author Asatryan on 13.06.2021
  **/
-interface ResourceManager {
-
-    fun getString(@StringRes stringResId: Int) : String
-}
-
 class BaseResourceManager(private val context: Context) : ResourceManager {
 
     override fun getString(stringResId: Int) = context.getString(stringResId)

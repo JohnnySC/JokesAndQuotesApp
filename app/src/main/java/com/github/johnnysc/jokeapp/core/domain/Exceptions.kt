@@ -1,4 +1,4 @@
-package com.github.johnnysc.jokeapp.domain
+package com.github.johnnysc.jokeapp.core.domain
 
 import java.io.IOException
 
@@ -9,4 +9,4 @@ class NoConnectionException : IOException()
 
 class ServiceUnavailableException : IOException()
 
-class NoCachedJokesException : IOException()
+class NoCachedDataException : IOException()

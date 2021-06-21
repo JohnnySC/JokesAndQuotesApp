@@ -4,21 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ProgressBar
+import com.github.johnnysc.jokeapp.core.presentation.EnableView
+import com.github.johnnysc.jokeapp.core.presentation.ShowImage
+import com.github.johnnysc.jokeapp.core.presentation.ShowText
+import com.github.johnnysc.jokeapp.core.presentation.ShowView
 
 /**
  * @author Asatryan on 18.06.2021
  **/
-interface Show<T> {
-    fun show(arg: T)
-}
-interface ShowText : Show<String>
-interface ShowImage : Show<Int>
-interface ShowView: Show<Boolean>
-
-interface EnableView {
-    fun enable(enable: Boolean)
-}
-
 class CorrectTextView : androidx.appcompat.widget.AppCompatTextView, ShowText {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -27,6 +20,7 @@ class CorrectTextView : androidx.appcompat.widget.AppCompatTextView, ShowText {
         attrs,
         defStyleAttr
     )
+
     override fun show(arg: String) {
         text = arg
     }
@@ -40,6 +34,7 @@ class CorrectButton : androidx.appcompat.widget.AppCompatButton, EnableView {
         attrs,
         defStyleAttr
     )
+
     override fun enable(enable: Boolean) {
         isEnabled = enable
     }
@@ -54,6 +49,7 @@ class CorrectImageButton : androidx.appcompat.widget.AppCompatImageButton, ShowI
         attrs,
         defStyleAttr
     )
+
     //endregion
     override fun show(arg: Int) {
         setImageResource(arg)

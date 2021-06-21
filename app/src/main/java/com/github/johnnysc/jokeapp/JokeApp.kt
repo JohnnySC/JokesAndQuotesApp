@@ -1,16 +1,19 @@
 package com.github.johnnysc.jokeapp
 
 import android.app.Application
-import com.github.johnnysc.jokeapp.data.*
-import com.github.johnnysc.jokeapp.data.cache.BaseCachedDataSource
-import com.github.johnnysc.jokeapp.data.cache.BaseCachedJoke
+import com.github.johnnysc.jokeapp.data.BaseRepository
+import com.github.johnnysc.jokeapp.data.cache.BaseCachedData
 import com.github.johnnysc.jokeapp.data.cache.BaseRealmProvider
+import com.github.johnnysc.jokeapp.data.cache.*
 import com.github.johnnysc.jokeapp.data.mapper.JokeRealmMapper
-import com.github.johnnysc.jokeapp.data.mapper.JokeSuccessMapper
+import com.github.johnnysc.jokeapp.data.CommonSuccessMapper
+import com.github.johnnysc.jokeapp.data.mapper.QuoteRealmMapper
 import com.github.johnnysc.jokeapp.data.net.*
-import com.github.johnnysc.jokeapp.domain.BaseJokeInteractor
-import com.github.johnnysc.jokeapp.domain.JokeFailureFactory
-import com.github.johnnysc.jokeapp.presentation.*
+import com.github.johnnysc.jokeapp.domain.BaseInteractor
+import com.github.johnnysc.jokeapp.domain.FailureFactory
+import com.github.johnnysc.jokeapp.presentation.BaseCommunication
+import com.github.johnnysc.jokeapp.presentation.BaseResourceManager
+import com.github.johnnysc.jokeapp.presentation.BaseViewModel
 import io.realm.Realm
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,11 +27,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 class JokeApp : Application() {
 
     lateinit var viewModel: BaseViewModel
+    lateinit var quoteViewModel: BaseViewModel
 
     override fun onCreate() {
         super.onCreate()
+        //region existing code
         Realm.init(this)
-
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -39,12 +43,25 @@ class JokeApp : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val cacheDataSource = BaseCachedDataSource(BaseRealmProvider(), JokeRealmMapper())
-        val resourceManager = BaseResourceManager(this)
-        val cloudDataSource = NewJokeCloudDataSource(retrofit.create(NewJokeService::class.java))
-        val repository = BaseJokeRepository(cacheDataSource, cloudDataSource, BaseCachedJoke())
+        val realmProvider = BaseRealmProvider()
+        val cacheDataSource =
+            JokeCachedDataSource(realmProvider, JokeRealmMapper(), JokeRealmToCommonMapper())
+        val cloudDataSource = JokeCloudDataSource(retrofit.create(BaseJokeService::class.java))
+        val jokeRepository = BaseRepository(cacheDataSource, cloudDataSource, BaseCachedData())
+        val failureHandler = FailureFactory(BaseResourceManager(this))
+        val mapper = CommonSuccessMapper()
         val interactor =
-            BaseJokeInteractor(repository, JokeFailureFactory(resourceManager), JokeSuccessMapper())
+            BaseInteractor(jokeRepository, failureHandler, mapper)
         viewModel = BaseViewModel(interactor, BaseCommunication())
+        //endregion
+        val quoteRepository = BaseRepository(
+            QuoteCachedDataSource(realmProvider, QuoteRealmMapper(), QuoteRealmToCommonMapper()),
+            QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
+            BaseCachedData()
+        )
+        quoteViewModel = BaseViewModel(
+            BaseInteractor(quoteRepository, failureHandler, mapper),
+            BaseCommunication()
+        )
     }
 }

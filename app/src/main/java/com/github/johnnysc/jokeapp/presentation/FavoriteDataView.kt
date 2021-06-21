@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import com.github.johnnysc.jokeapp.R
+import com.github.johnnysc.jokeapp.core.presentation.CommonViewModel
 
 /**
  * @author Asatryan on 20.06.2021
@@ -33,7 +34,7 @@ class FavoriteDataView : LinearLayout {
     }
 
     //endregion
-    private fun init(attrs:AttributeSet) {
+    private fun init(attrs: AttributeSet) {
         orientation = VERTICAL
         (context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -57,17 +58,16 @@ class FavoriteDataView : LinearLayout {
         }
     }
 
-    fun listenChanges(block: (checked: Boolean) -> Unit) =
+    fun linkWith(commonViewModel: CommonViewModel) {
         checkBox.setOnCheckedChangeListener { _, isChecked ->
-            block.invoke(isChecked)
+            commonViewModel.chooseFavorites(isChecked)
         }
-
-    fun handleChangeButton(block: () -> Unit) = changeButton.setOnClickListener {
-        block.invoke()
-    }
-
-    fun handleActionButton(block: () -> Unit) = actionButton.setOnClickListener {
-        block.invoke()
+        changeButton.setOnClickListener {
+            commonViewModel.changeItemStatus()
+        }
+        actionButton.setOnClickListener {
+            commonViewModel.getItem()
+        }
     }
 
     fun show(state: State) = state.show(progress, actionButton, textView, changeButton)

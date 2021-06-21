@@ -13,20 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val viewModel = (application as JokeApp).viewModel
-
         val favoriteDataView = findViewById<FavoriteDataView>(R.id.jokeFavoriteDataView)
-        favoriteDataView.listenChanges { isChecked ->
-            viewModel.chooseFavorites(isChecked)
-        }
-        favoriteDataView.handleChangeButton {
-            viewModel.changeJokeStatus()
-        }
-        favoriteDataView.handleActionButton {
-            viewModel.getJoke()
-        }
-
+        favoriteDataView.linkWith(viewModel)
         viewModel.observe(this, { state ->
             favoriteDataView.show(state)
         })
+
+        val quoteViewModel = (application as JokeApp).quoteViewModel
+        val quoteFavoriteDataView = findViewById<FavoriteDataView>(R.id.quoteFavoriteView)
+        quoteFavoriteDataView.linkWith(quoteViewModel)
+        quoteViewModel.observe(this) { state ->
+            quoteFavoriteDataView.show(state)
+        }
     }
 }

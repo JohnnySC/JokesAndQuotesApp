@@ -1,7 +1,8 @@
-package com.github.johnnysc.jokeapp.presentation
+package com.github.johnnysc.jokeapp.core.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.github.johnnysc.jokeapp.presentation.State
 
 /**
  * @author Asatryan on 19.06.2021

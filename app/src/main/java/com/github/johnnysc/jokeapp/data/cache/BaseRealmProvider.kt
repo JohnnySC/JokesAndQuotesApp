@@ -1,5 +1,6 @@
 package com.github.johnnysc.jokeapp.data.cache
 
+import com.github.johnnysc.jokeapp.core.data.cache.RealmProvider
 import io.realm.Realm
 
 /**
