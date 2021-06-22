@@ -6,9 +6,7 @@ import com.github.johnnysc.jokeapp.core.data.cache.CacheDataSource
 import com.github.johnnysc.jokeapp.core.data.cache.RealmProvider
 import com.github.johnnysc.jokeapp.core.data.cache.RealmToCommonDataMapper
 import com.github.johnnysc.jokeapp.core.domain.NoCachedDataException
-import io.realm.Realm
-import io.realm.RealmObject
-import io.realm.RealmQuery
+import io.realm.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -23,13 +21,20 @@ abstract class BaseCachedDataSource<T : RealmObject, E>(
 
     protected abstract val dbClass: Class<T>
 
-    override suspend fun getData(): CommonDataModel<E> {
+    override suspend fun getDataList() = getRealmData { results->
+        results.map { realmToCommonDataMapper.map(it) }
+    }
+    override suspend fun getData() = getRealmData {
+       realmToCommonDataMapper.map(it.random())
+    }
+
+    private fun <R> getRealmData(block: (list: RealmResults<T>) -> R) : R {
         realmProvider.provide().use {
             val list = it.where(dbClass).findAll()
             if (list.isEmpty())
                 throw NoCachedDataException()
             else
-                return realmToCommonDataMapper.map(list.random())
+                return block.invoke(list)
         }
     }
 

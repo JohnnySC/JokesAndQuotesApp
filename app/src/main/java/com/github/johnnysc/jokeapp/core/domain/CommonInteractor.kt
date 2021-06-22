@@ -7,6 +7,7 @@ import com.github.johnnysc.jokeapp.domain.CommonItem
  **/
 interface CommonInteractor {
     suspend fun getItem(): CommonItem
+    suspend fun getItemList() : List<CommonItem>
     suspend fun changeFavorites(): CommonItem
     fun getFavorites(favorites: Boolean)
 }

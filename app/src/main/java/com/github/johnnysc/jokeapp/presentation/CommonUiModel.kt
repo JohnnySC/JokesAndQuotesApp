@@ -3,6 +3,7 @@ package com.github.johnnysc.jokeapp.presentation
 import androidx.annotation.DrawableRes
 import com.github.johnnysc.jokeapp.R
 import com.github.johnnysc.jokeapp.core.presentation.Communication
+import com.github.johnnysc.jokeapp.core.presentation.ShowText
 
 /**
  * @author Asatryan on 13.06.2021
@@ -25,6 +26,7 @@ class FailedCommonUiModel(private val text: String) : CommonUiModel(text, "") {
 
 abstract class CommonUiModel(private val first: String, private val second: String) {
     protected open fun text() = "$first\n$second"
+    fun show(showText: ShowText) = showText.show(text())
 
     @DrawableRes
     protected abstract fun getIconResId(): Int

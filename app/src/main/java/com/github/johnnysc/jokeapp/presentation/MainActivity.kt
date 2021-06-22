@@ -2,10 +2,10 @@ package com.github.johnnysc.jokeapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
 import com.github.johnnysc.jokeapp.JokeApp
 import com.github.johnnysc.jokeapp.R
+import com.github.johnnysc.jokeapp.data.CommonDataModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +19,12 @@ class MainActivity : AppCompatActivity() {
             favoriteDataView.show(state)
         })
 
-        val quoteViewModel = (application as JokeApp).quoteViewModel
-        val quoteFavoriteDataView = findViewById<FavoriteDataView>(R.id.quoteFavoriteView)
-        quoteFavoriteDataView.linkWith(quoteViewModel)
-        quoteViewModel.observe(this) { state ->
-            quoteFavoriteDataView.show(state)
-        }
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val adapter = CommonDataRecyclerAdapter()
+        recyclerView.adapter = adapter
+        viewModel.observeList(this, { list ->
+            adapter.show(list)
+        })
+        viewModel.getItemList()
     }
 }

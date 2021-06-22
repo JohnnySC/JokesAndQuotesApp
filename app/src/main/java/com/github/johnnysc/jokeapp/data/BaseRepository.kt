@@ -21,6 +21,10 @@ class BaseRepository<E>(
         currentDataSource = if (cached) cacheDataSource else cloudDataSource
     }
 
+    override suspend fun getCommonItemList(): List<CommonDataModel<E>> = withContext(Dispatchers.IO) {
+        cacheDataSource.getDataList()
+    }
+
     override suspend fun getCommonItem(): CommonDataModel<E> = withContext(Dispatchers.IO) {
         try {
             val data = currentDataSource.getData()
