@@ -6,7 +6,7 @@ import com.github.johnnysc.jokeapp.domain.CommonItem
 /**
  * @author Asatryan on 19.06.2021
  **/
-class CommonSuccessMapper : CommonDataModelMapper<CommonItem.Success> {
-    override fun map(id: Int, first: String, second: String, cached: Boolean) =
+class CommonSuccessMapper<E> : CommonDataModelMapper<CommonItem.Success, E> {
+    override fun map(id: E, first: String, second: String, cached: Boolean) =
         CommonItem.Success(first, second, cached)
 }

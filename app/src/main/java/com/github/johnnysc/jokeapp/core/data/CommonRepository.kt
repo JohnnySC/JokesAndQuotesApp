@@ -5,8 +5,8 @@ import com.github.johnnysc.jokeapp.data.CommonDataModel
 /**
  * @author Asatryan on 13.06.2021
  **/
-interface CommonRepository {
-    suspend fun getCommonItem(): CommonDataModel
-    suspend fun changeStatus(): CommonDataModel
+interface CommonRepository<E> {
+    suspend fun getCommonItem(): CommonDataModel<E>
+    suspend fun changeStatus(): CommonDataModel<E>
     fun chooseDataSource(cached: Boolean)
 }

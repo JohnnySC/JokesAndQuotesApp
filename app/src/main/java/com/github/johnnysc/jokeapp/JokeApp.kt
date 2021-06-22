@@ -49,7 +49,7 @@ class JokeApp : Application() {
         val cloudDataSource = JokeCloudDataSource(retrofit.create(BaseJokeService::class.java))
         val jokeRepository = BaseRepository(cacheDataSource, cloudDataSource, BaseCachedData())
         val failureHandler = FailureFactory(BaseResourceManager(this))
-        val mapper = CommonSuccessMapper()
+        val mapper = CommonSuccessMapper<Int>()
         val interactor =
             BaseInteractor(jokeRepository, failureHandler, mapper)
         viewModel = BaseViewModel(interactor, BaseCommunication())
@@ -59,8 +59,9 @@ class JokeApp : Application() {
             QuoteCloudDataSource(retrofit.create(QuoteService::class.java)),
             BaseCachedData()
         )
+        val quoteMapper = CommonSuccessMapper<String>()
         quoteViewModel = BaseViewModel(
-            BaseInteractor(quoteRepository, failureHandler, mapper),
+            BaseInteractor(quoteRepository, failureHandler, quoteMapper),
             BaseCommunication()
         )
     }

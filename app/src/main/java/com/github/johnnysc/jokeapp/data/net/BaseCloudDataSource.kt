@@ -11,9 +11,9 @@ import java.net.UnknownHostException
 /**
  * @author Asatryan on 21.06.2021
  **/
-abstract class BaseCloudDataSource<T : Mapper<CommonDataModel>> : CloudDataSource {
+abstract class BaseCloudDataSource<T : Mapper<CommonDataModel<E>>, E> : CloudDataSource<E> {
     protected abstract fun getServerModel(): Call<T>
-    override suspend fun getData(): CommonDataModel {
+    override suspend fun getData(): CommonDataModel<E> {
         try {
             return getServerModel().execute().body()!!.to()
         } catch (e: Exception) {

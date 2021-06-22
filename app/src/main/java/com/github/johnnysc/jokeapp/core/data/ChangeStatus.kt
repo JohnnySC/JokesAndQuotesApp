@@ -5,6 +5,6 @@ import com.github.johnnysc.jokeapp.data.CommonDataModel
 /**
  * @author Asatryan on 19.06.2021
  **/
-interface ChangeStatus {
-    suspend fun addOrRemove(id: Int, model: CommonDataModel): CommonDataModel
+interface ChangeStatus<E> {
+    suspend fun addOrRemove(id: E, model: CommonDataModel<E>): CommonDataModel<E>
 }

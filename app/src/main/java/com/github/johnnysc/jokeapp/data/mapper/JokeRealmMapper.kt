@@ -6,7 +6,7 @@ import com.github.johnnysc.jokeapp.data.cache.JokeRealmModel
 /**
  * @author Asatryan on 19.06.2021
  **/
-class JokeRealmMapper : CommonDataModelMapper<JokeRealmModel> {
+class JokeRealmMapper : CommonDataModelMapper<JokeRealmModel, Int> {
     override fun map(id: Int, first: String, second: String, cached: Boolean) =
         JokeRealmModel().also { joke ->
             joke.id = id

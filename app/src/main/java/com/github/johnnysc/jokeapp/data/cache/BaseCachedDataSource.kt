@@ -6,22 +6,24 @@ import com.github.johnnysc.jokeapp.core.data.cache.CacheDataSource
 import com.github.johnnysc.jokeapp.core.data.cache.RealmProvider
 import com.github.johnnysc.jokeapp.core.data.cache.RealmToCommonDataMapper
 import com.github.johnnysc.jokeapp.core.domain.NoCachedDataException
+import io.realm.Realm
 import io.realm.RealmObject
+import io.realm.RealmQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
  * @author Asatryan on 21.06.2021
  **/
-abstract class BaseCachedDataSource<T : RealmObject>(
+abstract class BaseCachedDataSource<T : RealmObject, E>(
     private val realmProvider: RealmProvider,
-    private val mapper: CommonDataModelMapper<T>,
-    private val realmToCommonDataMapper: RealmToCommonDataMapper<T>
-) : CacheDataSource {
+    private val mapper: CommonDataModelMapper<T, E>,
+    private val realmToCommonDataMapper: RealmToCommonDataMapper<T, E>
+) : CacheDataSource<E> {
 
     protected abstract val dbClass: Class<T>
 
-    override suspend fun getData(): CommonDataModel {
+    override suspend fun getData(): CommonDataModel<E> {
         realmProvider.provide().use {
             val list = it.where(dbClass).findAll()
             if (list.isEmpty())
@@ -31,11 +33,13 @@ abstract class BaseCachedDataSource<T : RealmObject>(
         }
     }
 
-    override suspend fun addOrRemove(id: Int, model: CommonDataModel): CommonDataModel =
+
+    protected abstract fun findRealmObject(realm: Realm, id: E): T?
+
+    override suspend fun addOrRemove(id: E, model: CommonDataModel<E>): CommonDataModel<E> =
         withContext(Dispatchers.IO) {
             realmProvider.provide().use {
-                val itemRealm =
-                    it.where(dbClass).equalTo("id", id).findFirst()
+                val itemRealm = findRealmObject(it, id)
                 return@withContext if (itemRealm == null) {
                     it.executeTransaction { transaction ->
                         val newData = model.map(mapper)

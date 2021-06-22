@@ -8,9 +8,9 @@ import com.github.johnnysc.jokeapp.core.data.cache.CachedData
 /**
  * @author Asatryan on 19.06.2021
  **/
-class BaseCachedData : CachedData {
-    private var cached: ChangeCommonItem = ChangeCommonItem.Empty()
-    override fun save(data: CommonDataModel) {
+class BaseCachedData<E> : CachedData<E>{
+    private var cached: ChangeCommonItem<E> = ChangeCommonItem.Empty()
+    override fun save(data: CommonDataModel<E>) {
         cached = data
     }
 
@@ -18,7 +18,7 @@ class BaseCachedData : CachedData {
         cached = ChangeCommonItem.Empty()
     }
 
-    override suspend fun change(changeStatus: ChangeStatus): CommonDataModel {
+    override suspend fun change(changeStatus: ChangeStatus<E>): CommonDataModel<E> {
         return cached.change(changeStatus)
     }
 }

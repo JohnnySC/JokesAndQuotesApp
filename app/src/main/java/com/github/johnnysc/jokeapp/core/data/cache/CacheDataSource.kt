@@ -6,4 +6,4 @@ import com.github.johnnysc.jokeapp.core.data.ChangeStatus
 /**
  * @author Asatryan on 15.06.2021
  **/
-interface CacheDataSource : DataFetcher, ChangeStatus
+interface CacheDataSource<E> : DataFetcher<E>, ChangeStatus<E>

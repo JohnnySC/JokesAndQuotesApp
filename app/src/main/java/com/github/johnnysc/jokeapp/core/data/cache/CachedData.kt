@@ -6,7 +6,7 @@ import com.github.johnnysc.jokeapp.core.data.ChangeCommonItem
 /**
  * @author Asatryan on 19.06.2021
  **/
-interface CachedData : ChangeCommonItem {
-    fun save(data: CommonDataModel)
+interface CachedData<E> : ChangeCommonItem<E> {
+    fun save(data: CommonDataModel<E>)
     fun clear()
 }

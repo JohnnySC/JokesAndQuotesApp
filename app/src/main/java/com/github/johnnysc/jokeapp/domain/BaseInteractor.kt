@@ -8,10 +8,10 @@ import com.github.johnnysc.jokeapp.core.domain.FailureHandler
 /**
  * @author Asatryan on 19.06.2021
  **/
-class BaseInteractor(
-    private val repository: CommonRepository,
+class BaseInteractor<E>(
+    private val repository: CommonRepository<E>,
     private val failureHandler: FailureHandler,
-    private val mapper: CommonDataModelMapper<CommonItem.Success>
+    private val mapper: CommonDataModelMapper<CommonItem.Success, E>
 ) : CommonInteractor {
     override suspend fun getItem(): CommonItem {
         return try {
