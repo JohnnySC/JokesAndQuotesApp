@@ -14,9 +14,11 @@ interface Communication {
     fun isState(type: Int): Boolean
 }
 
-interface ListCommunication {
-    fun showDataList(list: List<CommonUiModel>)
-    fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUiModel>>)
+interface ListCommunication<T> {
+    fun getList() : List<CommonUiModel<T>>
+    fun showDataList(list: List<CommonUiModel<T>>)
+    fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUiModel<T>>>)
+    fun removeItem(id: T) : Int
 }
 
-interface CommonCommunication : Communication, ListCommunication
+interface CommonCommunication<T> : Communication, ListCommunication<T>

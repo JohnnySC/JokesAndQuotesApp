@@ -26,8 +26,9 @@ import retrofit2.converter.gson.GsonConverterFactory
  **/
 class JokeApp : Application() {
 
-    lateinit var viewModel: BaseViewModel
-    lateinit var quoteViewModel: BaseViewModel
+    lateinit var viewModel: BaseViewModel<Int>
+    lateinit var jokeCommunication: BaseCommunication<Int>
+    lateinit var quoteViewModel: BaseViewModel<String>
 
     override fun onCreate() {
         super.onCreate()
@@ -52,7 +53,8 @@ class JokeApp : Application() {
         val mapper = CommonSuccessMapper<Int>()
         val interactor =
             BaseInteractor(jokeRepository, failureHandler, mapper)
-        viewModel = BaseViewModel(interactor, BaseCommunication())
+        jokeCommunication = BaseCommunication()
+        viewModel = BaseViewModel(interactor, jokeCommunication)
         //endregion
         val quoteRepository = BaseRepository(
             QuoteCachedDataSource(realmProvider, QuoteRealmMapper(), QuoteRealmToCommonMapper()),

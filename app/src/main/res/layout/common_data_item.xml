@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.johnnysc.jokeapp.presentation.CorrectTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/commonDataTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding"
-    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-    tools:text="some long text here that should break into dots at the end of line you know" />
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/padding">
+
+    <com.github.johnnysc.jokeapp.presentation.CorrectTextView
+        android:id="@+id/commonDataTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="@dimen/padding"
+        tools:text="Joke or error message" />
+
+    <com.github.johnnysc.jokeapp.presentation.CorrectImageButton
+        android:id="@+id/changeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="?selectableItemBackground"
+        android:tint="@color/purple_200"
+        android:src="@drawable/baseline_favorite_24" />
+</LinearLayout>

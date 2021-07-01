@@ -21,14 +21,14 @@ abstract class BaseCachedDataSource<T : RealmObject, E>(
 
     protected abstract val dbClass: Class<T>
 
-    override suspend fun getDataList() = getRealmData { results->
+    override suspend fun getDataList() = getRealmData { results ->
         results.map { realmToCommonDataMapper.map(it) }
     }
     override suspend fun getData() = getRealmData {
-       realmToCommonDataMapper.map(it.random())
+        realmToCommonDataMapper.map(it.random())
     }
 
-    private fun <R> getRealmData(block: (list: RealmResults<T>) -> R) : R {
+    private fun <R> getRealmData(block: (list: RealmResults<T>) -> R): R {
         realmProvider.provide().use {
             val list = it.where(dbClass).findAll()
             if (list.isEmpty())
@@ -59,4 +59,12 @@ abstract class BaseCachedDataSource<T : RealmObject, E>(
                 }
             }
         }
+
+    override suspend fun remove(id: E) = withContext(Dispatchers.IO) {
+        realmProvider.provide().use { realm ->
+            realm.executeTransaction {
+                findRealmObject(realm, id)?.deleteFromRealm()
+            }
+        }
+    }
 }

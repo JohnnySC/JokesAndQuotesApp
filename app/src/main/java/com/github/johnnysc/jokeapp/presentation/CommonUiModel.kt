@@ -8,15 +8,20 @@ import com.github.johnnysc.jokeapp.core.presentation.ShowText
 /**
  * @author Asatryan on 13.06.2021
  **/
-class BaseCommonUiModel(text: String, punchline: String) : CommonUiModel(text, punchline) {
+class BaseCommonUiModel<E>(text: String, punchline: String) : CommonUiModel<E>(text, punchline) {
     override fun getIconResId() = R.drawable.baseline_favorite_border_24
 }
 
-class FavoriteCommonUiModel(text: String, punchline: String) : CommonUiModel(text, punchline) {
+class FavoriteCommonUiModel<E>(private val id: E, text: String, punchline: String) :
+    CommonUiModel<E>(text, punchline) {
+    override fun change(listener: CommonDataRecyclerAdapter.FavoriteItemClickListener<E>) =
+        listener.change(id)
+
+    override fun matches(id: E): Boolean  = this.id == id
     override fun getIconResId() = R.drawable.baseline_favorite_24
 }
 
-class FailedCommonUiModel(private val text: String) : CommonUiModel(text, "") {
+class FailedCommonUiModel<E>(private val text: String) : CommonUiModel<E>(text, "") {
     override fun text() = text
     override fun getIconResId() = 0
     override fun show(communication: Communication) = communication.showState(
@@ -24,10 +29,11 @@ class FailedCommonUiModel(private val text: String) : CommonUiModel(text, "") {
     )
 }
 
-abstract class CommonUiModel(private val first: String, private val second: String) {
+abstract class CommonUiModel<T>(private val first: String, private val second: String) {
     protected open fun text() = "$first\n$second"
+    open fun change(listener: CommonDataRecyclerAdapter.FavoriteItemClickListener<T>) = Unit
+    open fun matches(id: T) : Boolean = false
     fun show(showText: ShowText) = showText.show(text())
-
     @DrawableRes
     protected abstract fun getIconResId(): Int
     open fun show(communication: Communication) = communication.showState(
