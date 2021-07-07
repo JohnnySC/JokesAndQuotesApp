@@ -14,6 +14,7 @@ class BaseCommonUiModel<E>(text: String, punchline: String) : CommonUiModel<E>(t
 
 class FavoriteCommonUiModel<E>(private val id: E, text: String, punchline: String) :
     CommonUiModel<E>(text, punchline) {
+    override fun same(model: CommonUiModel<E>) = model is FavoriteCommonUiModel<E> && model.id == id
     override fun change(listener: CommonDataRecyclerAdapter.FavoriteItemClickListener<E>) =
         listener.change(id)
 
@@ -30,6 +31,7 @@ class FailedCommonUiModel<E>(private val text: String) : CommonUiModel<E>(text, 
 }
 
 abstract class CommonUiModel<T>(private val first: String, private val second: String) {
+    open fun same(model: CommonUiModel<T>): Boolean = false
     protected open fun text() = "$first\n$second"
     open fun change(listener: CommonDataRecyclerAdapter.FavoriteItemClickListener<T>) = Unit
     open fun matches(id: T) : Boolean = false

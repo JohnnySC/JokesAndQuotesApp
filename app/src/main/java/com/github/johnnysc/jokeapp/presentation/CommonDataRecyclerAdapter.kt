@@ -21,15 +21,7 @@ class CommonDataRecyclerAdapter<T>(
     }
 
     fun update() {
-        notifyDataSetChanged()
-    }
-
-    fun update(pair: Pair<Boolean, Int>) {
-        if (pair.first) {
-            notifyItemInserted(pair.second)
-        } else {
-            notifyItemRemoved(pair.second)
-        }
+        communication.getDiffResult().dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonDataViewHolder<T> {
