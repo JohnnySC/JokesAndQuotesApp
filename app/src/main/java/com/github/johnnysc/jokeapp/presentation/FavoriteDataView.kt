@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import androidx.annotation.StringRes
 import com.github.johnnysc.jokeapp.R
 import com.github.johnnysc.jokeapp.core.presentation.CommonItemViewModel
 
@@ -57,6 +58,9 @@ class FavoriteDataView : LinearLayout {
             }
         }
     }
+
+    fun checkBoxText(@StringRes id:Int) = checkBox.setText(id)
+    fun actionButtonText(@StringRes id:Int) = actionButton.setText(id)
 
     fun linkWith(commonViewModel: CommonItemViewModel) {
         checkBox.setOnCheckedChangeListener { _, isChecked ->

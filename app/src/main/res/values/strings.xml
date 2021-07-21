@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JokeApp</string>
+    <string name="app_name">Jokes &amp; Quotes</string>
     <string name="get_joke">Get joke</string>
     <string name="get_quote">Get quote</string>
     <string name="show_favorite_joke">Show favorite joke</string>
@@ -10,4 +10,6 @@
     <string name="generic_fail_message">Something went wrong</string>
     <string name="remove_from_favorites">Remove from favorites?</string>
     <string name="yes">yes</string>
+    <string name="jokes">Jokes</string>
+    <string name="quotes">Quotes</string>
 </resources>
