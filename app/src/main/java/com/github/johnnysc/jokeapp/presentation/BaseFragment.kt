@@ -22,16 +22,15 @@ abstract class BaseFragment<V : BaseViewModel<T>, T> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            (requireActivity().application as JokesAndQuotesApp).viewModelsFactory
-        ).get(getViewModelClass())
+        viewModel =
+            (requireActivity().application as JokesAndQuotesApp).get(getViewModelClass(), this)
     }
 
     protected abstract fun getViewModelClass(): Class<V>
 
     @StringRes
     protected abstract fun checkBoxText(): Int
+
     @StringRes
     protected abstract fun actionButtonText(): Int
 
@@ -63,7 +62,7 @@ abstract class BaseFragment<V : BaseViewModel<T>, T> : Fragment() {
                     viewModel.changeItemStatus(id)
                 }.show()
             }
-        }, viewModel.communication)
+        }, viewModel)
         recyclerView.adapter = adapter
 
         viewModel.observeList(this, {

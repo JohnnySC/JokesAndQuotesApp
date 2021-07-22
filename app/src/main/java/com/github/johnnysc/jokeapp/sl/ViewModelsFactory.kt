@@ -1,4 +1,4 @@
-package com.github.johnnysc.jokeapp
+package com.github.johnnysc.jokeapp.sl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
