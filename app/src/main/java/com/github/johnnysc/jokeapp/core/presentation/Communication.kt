@@ -15,10 +15,13 @@ interface Communication {
     fun isState(type: Int): Boolean
 }
 
-interface ListCommunication<T> {
-    fun getList() : List<CommonUiModel<T>>
+interface ListCommunication<T> : ListChanges<T> {
     fun showDataList(list: List<CommonUiModel<T>>)
     fun observeList(owner: LifecycleOwner, observer: Observer<List<CommonUiModel<T>>>)
+}
+
+interface ListChanges<T> {
+    fun getList(): List<CommonUiModel<T>>
     fun getDiffResult(): DiffUtil.DiffResult
 }
 

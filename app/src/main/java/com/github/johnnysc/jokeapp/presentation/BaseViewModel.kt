@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.github.johnnysc.jokeapp.core.domain.CommonInteractor
 import com.github.johnnysc.jokeapp.core.presentation.CommonCommunication
 import com.github.johnnysc.jokeapp.core.presentation.CommonViewModel
+import com.github.johnnysc.jokeapp.core.presentation.ListChanges
 import com.github.johnnysc.jokeapp.domain.CommonItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +15,12 @@ import kotlinx.coroutines.launch
  **/
 abstract class BaseViewModel<T>(
     private val interactor: CommonInteractor<T>,
-    val communication: CommonCommunication<T>,
+    private val communication: CommonCommunication<T>,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
-) : ViewModel(), CommonViewModel<T> {
+) : ViewModel(), CommonViewModel<T>, ListChanges<T> {
+
+    override fun getList() = communication.getList()
+    override fun getDiffResult() = communication.getDiffResult()
 
     override fun getItem() {
         viewModelScope.launch(dispatcher) {

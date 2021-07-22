@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.johnnysc.jokeapp.R
-import com.github.johnnysc.jokeapp.core.presentation.CommonCommunication
+import com.github.johnnysc.jokeapp.core.presentation.ListChanges
 
 /**
  * @author Asatryan on 22.06.2021
  **/
 class CommonDataRecyclerAdapter<T>(
     private val listener: FavoriteItemClickListener<T>,
-    private val communication: CommonCommunication<T>
+    private val communication: ListChanges<T>
 ) : RecyclerView.Adapter<CommonDataRecyclerAdapter.CommonDataViewHolder<T>>() {
 
     override fun getItemViewType(position: Int) = when (communication.getList()[position]) {

@@ -18,10 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewModel =
-            ViewModelProvider(this, (application as JokesAndQuotesApp).viewModelsFactory).get(
-                MainViewModel::class.java
-            )
+        val viewModel = (application as JokesAndQuotesApp).get(MainViewModel::class.java, this)
 
         val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         val tabChosen: (Int) -> Unit = { position ->
