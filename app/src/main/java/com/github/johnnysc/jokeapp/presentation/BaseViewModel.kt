@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 /**
  * @author Asatryan on 13.06.2021
  **/
-class BaseViewModel<T>(
+abstract class BaseViewModel<T>(
     private val interactor: CommonInteractor<T>,
-    private val communication: CommonCommunication<T>,
+    val communication: CommonCommunication<T>,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel(), CommonViewModel<T> {
 
@@ -60,3 +60,13 @@ class BaseViewModel<T>(
 }
 
 fun <T> List<CommonItem<T>>.toUiList() = map { it.to() }
+
+class JokesViewModel(
+    interactor: CommonInteractor<Int>,
+    communication: CommonCommunication<Int>
+) : BaseViewModel<Int>(interactor, communication)
+
+class QuotesViewModel(
+    interactor: CommonInteractor<String>,
+    communication: CommonCommunication<String>
+) : BaseViewModel<String>(interactor, communication)
