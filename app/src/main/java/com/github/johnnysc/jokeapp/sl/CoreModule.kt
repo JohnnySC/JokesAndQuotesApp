@@ -15,9 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * @author Asatryan on 22.07.2021
  **/
-class CoreModule(context: Context) : CommonInstancesProvider {
+class CoreModule(context: Context, useMocks: Boolean) : CommonInstancesProvider {
 
-    private val realmProvider by lazy { BaseRealmProvider(context) }
+    private val realmProvider by lazy { BaseRealmProvider(context, useMocks) }
     private val persistentDataStore by lazy { PersistentDataSource.Base(context) }
     private val failureHandler by lazy { FailureFactory(BaseResourceManager(context)) }
     private val retrofit by lazy {

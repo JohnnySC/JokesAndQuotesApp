@@ -12,14 +12,19 @@ import com.github.johnnysc.jokeapp.sl.*
 class JokesAndQuotesApp : Application() {
 
     private val viewModelsFactory by lazy {
-        ViewModelsFactory(MainModule(coreModule), JokesModule(coreModule), QuotesModule(coreModule))
+        ViewModelsFactory(
+            MainModule(coreModule),
+            JokesModule(coreModule, useMocks),
+            QuotesModule(coreModule)
+        )
     }
 
     private lateinit var coreModule: CoreModule
+    private val useMocks = BuildConfig.DEBUG
 
     override fun onCreate() {
         super.onCreate()
-        coreModule = CoreModule(this)
+        coreModule = CoreModule(this, useMocks)
     }
 
     fun <T : ViewModel> get(modelClass: Class<T>, owner: ViewModelStoreOwner): T =
