@@ -8,6 +8,7 @@ import com.github.johnnysc.jokeapp.data.cache.JokeRealmToCommonMapper
 import com.github.johnnysc.jokeapp.data.mapper.JokeRealmMapper
 import com.github.johnnysc.jokeapp.data.net.BaseJokeService
 import com.github.johnnysc.jokeapp.data.net.JokeCloudDataSource
+import com.github.johnnysc.jokeapp.data.net.MockJokeCloudDataSource
 import com.github.johnnysc.jokeapp.domain.BaseInteractor
 import com.github.johnnysc.jokeapp.presentation.BaseCommunication
 import com.github.johnnysc.jokeapp.presentation.JokesViewModel
@@ -16,7 +17,8 @@ import com.github.johnnysc.jokeapp.presentation.JokesViewModel
  * @author Asatryan on 22.07.2021
  **/
 class JokesModule(
-    private val instancesProvider: CommonInstancesProvider
+    private val instancesProvider: CommonInstancesProvider,
+    private val useMocks: Boolean
 ) : Module.Base<Int, JokesViewModel>() {
 
     override fun getViewModel() = JokesViewModel(getInteractor(), BaseCommunication())
@@ -34,6 +36,8 @@ class JokesModule(
     private fun getCacheDataSource() =
         JokeCachedDataSource(instancesProvider, JokeRealmMapper(), JokeRealmToCommonMapper())
 
-    private fun getCloudDataSource() =
+    private fun getCloudDataSource() = if (useMocks)
+        MockJokeCloudDataSource()
+    else
         JokeCloudDataSource(instancesProvider.makeService(BaseJokeService::class.java))
 }

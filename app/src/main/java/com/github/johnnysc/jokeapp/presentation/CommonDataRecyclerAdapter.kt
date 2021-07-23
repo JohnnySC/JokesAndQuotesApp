@@ -48,7 +48,7 @@ class CommonDataRecyclerAdapter<T>(
         open fun bind(model: CommonUiModel<T>) = model.show(textView)
         class Base<T>(view: View, private val listener: FavoriteItemClickListener<T>) :
             CommonDataViewHolder<T>(view) {
-            private val iconView = itemView.findViewById<CorrectImageButton>(R.id.changeButton)
+            private val iconView = itemView.findViewById<CorrectImageButton>(R.id.removeButton)
             override fun bind(model: CommonUiModel<T>) {
                 super.bind(model)
                 iconView.setOnClickListener {

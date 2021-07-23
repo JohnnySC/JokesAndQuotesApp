@@ -6,7 +6,7 @@
     <string name="show_favorite_quote">Show favorite quote</string>
     <string name="no_connection">No internet connection</string>
     <string name="service_unavailable">Service is unavailable</string>
-    <string name="no_cached_data">"No favorites! Add one by heart icon "</string>
+    <string name="no_cached_data">No favorites! Add one by heart icon</string>
     <string name="generic_fail_message">Something went wrong</string>
     <string name="remove_from_favorites">Remove from favorites?</string>
     <string name="yes">yes</string>
